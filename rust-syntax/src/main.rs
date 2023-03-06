@@ -3,10 +3,6 @@ fn use_string(s: &String) {
     println!("{} : world", s);
 }
 
-fn use_number (number: u32) {
-
-}
-
 fn borrow_string(s: &String) {
     println!("{}",s);
 }
