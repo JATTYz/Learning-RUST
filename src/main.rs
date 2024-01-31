@@ -1,43 +1,30 @@
-use std::io::{self, Write};
+mod guessing;
+
 use rand::Rng;
 
+const PRICE_PER_TIME: i32 = 5;
+const PRIZE: i32 = 50;
 fn main() {
 
-    const PRICE_PER_TIME: i32 = 5;
+    let mut _guessing_times: i32 = 0;
+    let mut profits: i32 = 0;
 
-    let mut guessing_times: i32 = 0;
-
-    loop {
-        println!("Guess Number Between 1-10");
-        print!("Type a number: ");
-        io::stdout().flush().unwrap();
-        
-        let mut guess = String::new();
-
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("failed to read line");
-
-        println!("You guessd: {}", guess);
-
+    for _ in 0..1000 {
+        let input_random_string = generate_random_string();
         let random_string = generate_random_string();
-        let is_correct_number = guess.contains(&random_string);
+        let is_correct_number = input_random_string == random_string;
 
         if is_correct_number{
-            println!("CORRECT!");
-            println!("Number of guessing {} \n", guessing_times);
-            println!("TOTAL PRICE FOR THIS GAME ${}", guessing_times*PRICE_PER_TIME);
-            return;
+            profits -= PRIZE;
+            _guessing_times = 0;
         }else{
-            println!("TRY AGAIN!");
-            guessing_times += 1;
+            _guessing_times += 1;
+            profits += PRICE_PER_TIME;
         }
-        println!("THE CORRECT NUMBER IS {}", random_string);
-        println!("Number of guessing {} \n", guessing_times);
     }
 
+    println!("{}", profits);
 }
-
 
 fn generate_random_string() -> String {
     let mut rng = rand::thread_rng();
@@ -46,3 +33,4 @@ fn generate_random_string() -> String {
     
     random_string
 }
+
